@@ -40,7 +40,7 @@ body{
 }
 
 
-@media only screen and (max-width: 620px) {
+@media only screen and (max-width: 1180px) {
     #search{
         margin: 50px;
         width: 230px;   
