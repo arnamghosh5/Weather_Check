@@ -21,7 +21,11 @@ try {
 	cityname.innerHTML=a
 	temp.innerHTML="Temparature: " +Math.round(((result.current_observation.condition.temperature)-32)*(5/9))+ " degree C";
 	hum.innerHTML="Humidity: " +result.current_observation.atmosphere.humidity+"%";
-	feel.innerHTML=result.current_observation.condition.text.toString();
+	fil=result.current_observation.condition.text.toString();
+	if(fil.includes("Showers")){ feel.innerHTML="Raining";}
+	else{
+		feel.innerHTML=result.current_observation.condition.text.toString();
+	}
 } catch (error) {
 	console.error(error);
 }
