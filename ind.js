@@ -1,35 +1,24 @@
-async function showWeather(){
-
-	/*setTimeout(()=> {
-		search.value= ""
-	}, 200);*/
-	a=search.value;
-	search.value=""
-	const url = 'https://yahoo-weather5.p.rapidapi.com/weather?location='+a;
-const options = {
-	method: 'GET',
-	headers: {
-		'x-rapidapi-key': 'e10d73ab91mshe853274d4cbf15ap10a917jsn56c214417489',
-		'x-rapidapi-host': 'yahoo-weather5.p.rapidapi.com'
-	}
-};
-
-try {
-	const response = await fetch(url, options);
-	const result = await response.json();
-	console.log(result);
-	cityname.innerHTML=a
-	temp.innerHTML="Temparature: " +Math.round(((result.current_observation.condition.temperature)-32)*(5/9))+ " degree C";
-	hum.innerHTML="Humidity: " +result.current_observation.atmosphere.humidity+"%";
-	fil=result.current_observation.condition.text.toString();
-	if(fil.includes("Showers")){ feel.innerHTML="Raining";}
-	else{
-		feel.innerHTML=result.current_observation.condition.text.toString();
-	}
-} catch (error) {
-	console.error(error);
+const apiKey="66c75c946f7cdb7bd331146217ebea39";
+const apiUrl="https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+const searchBox=document.querySelector(".search input");
+const searchB=document.querySelector(".search button");
+async function checkWeather(city){
+    const r=await fetch(apiUrl + city+ `&appid=${apiKey}`);
+    if(r.status==404){
+        document.querySelector(".error").style.display="block";
+        document.querySelector(".weather").style.display="none";
+    }
+    else{
+    var data=await r.json();
+    console.log(data);
+    document.querySelector(".city").innerHTML=data.name;
+    document.querySelector(".temp").innerHTML=Math.round(data.main.temp) + "°C";
+    document.querySelector(".hum").innerHTML=data.main.humidity +"%";
+    document.querySelector(".wind").innerHTML=data.wind.speed +" km/h";
+    document.querySelector(".weather").style.display="block";
+    document.querySelector(".error").style.display="none";
 }
-	
-
-
 }
+searchB.addEventListener("click", ()=>{
+    checkWeather(searchBox.value);
+})
